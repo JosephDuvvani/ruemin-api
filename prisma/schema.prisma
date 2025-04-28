@@ -18,8 +18,6 @@ model User {
   id        String      @id @default(uuid())
   username  String      @unique
   password  String
-  firstname String
-  lastname  String?
   profile   Profile?
   inbox     Chat[]
   memberOf  Community[] @relation("GroupMember")
@@ -29,11 +27,13 @@ model User {
 }
 
 model Profile {
-  id       String @id @default(uuid())
-  imageUrl String
-  bio      Json
-  user     User   @relation(fields: [userId], references: [id])
-  userId   String @unique
+  id        String  @id @default(uuid())
+  imageUrl  String
+  firstname String
+  lastname  String?
+  bio       Json
+  user      User    @relation(fields: [userId], references: [id])
+  userId    String  @unique
 }
 
 model Token {
