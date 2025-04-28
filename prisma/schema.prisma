@@ -38,7 +38,7 @@ model Profile {
 
 model Token {
   id  String @id @default(uuid())
-  jwt String
+  jwt String @unique
 }
 
 model Chat {
