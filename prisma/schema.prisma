@@ -32,7 +32,7 @@ model Profile {
   firstname String
   lastname  String?
   bio       Json
-  user      User    @relation(fields: [userId], references: [id])
+  user      User    @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId    String  @unique
 }
 
