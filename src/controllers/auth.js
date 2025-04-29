@@ -205,4 +205,30 @@ const refreshToken = async (req, res) => {
   });
 };
 
-export { signUpPost, loginPost, refreshToken };
+const logoutPost = async (req, res) => {
+  const { token } = req.body;
+
+  if (!token) {
+    return res.status(400).json({
+      error: { msg: "Refresh token is required" },
+    });
+  }
+
+  try {
+    const deletedToken = await models.Token.destroy(token);
+
+    if (!deletedToken) {
+      return res.status(400).json({
+        error: { msg: "Invalid refresh token" },
+      });
+    }
+    return res.sendStatus(204);
+  } catch (err) {
+    return res.status(500).json({
+      message: "Error logging out",
+      error: err,
+    });
+  }
+};
+
+export { signUpPost, loginPost, refreshToken, logoutPost };
