@@ -28,10 +28,10 @@ model User {
 
 model Profile {
   id        String  @id @default(uuid())
-  imageUrl  String
+  imageUrl  String?
   firstname String
   lastname  String?
-  bio       Json
+  bio       Json?
   user      User    @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId    String  @unique
 }
