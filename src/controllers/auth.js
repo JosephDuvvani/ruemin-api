@@ -165,4 +165,44 @@ const loginPost = [
   },
 ];
 
-export { signUpPost, loginPost };
+const refreshToken = async (req, res) => {
+  const refreshToken = req.body.token;
+
+  if (!refreshToken) {
+    return res.status(400).json({
+      error: { msg: "Refresh token is required" },
+    });
+  }
+
+  try {
+    const exists = await models.Token.exists(refreshToken);
+
+    if (!exists) {
+      return res.status(400).json({
+        error: { msg: "Invalid refresh token" },
+      });
+    }
+  } catch (err) {
+    return res.status(500).json({
+      message: "Error checking if token exists",
+      error: err,
+    });
+  }
+
+  jwt.verify(refreshToken, process.env.REFRESH_TOKEN_SECRET, (err, user) => {
+    if (err) {
+      return res.status(500).json({
+        error: { msg: "Error verifying token" },
+      });
+    }
+
+    const accessToken = generateAccessToken({
+      id: user.id,
+      username: user.username,
+    });
+
+    return res.status(201).json({ accessToken });
+  });
+};
+
+export { signUpPost, loginPost, refreshToken };
