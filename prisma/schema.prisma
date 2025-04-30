@@ -15,15 +15,14 @@ datasource db {
 }
 
 model User {
-  id        String      @id @default(uuid())
-  username  String      @unique
-  password  String
-  profile   Profile?
-  inbox     Chat[]
-  memberOf  Community[] @relation("GroupMember")
-  createrOf Community[] @relation("GroupCreater")
-  requests  Request[]
-  createdAt DateTime    @default(now())
+  id          String        @id @default(uuid())
+  username    String        @unique
+  password    String
+  profile     Profile?
+  inbox       Chat[]        @relation("Chats")
+  requests    Request[]
+  createdAt   DateTime      @default(now())
+  ChatMessage ChatMessage[]
 }
 
 model Profile {
@@ -42,26 +41,25 @@ model Token {
 }
 
 model Chat {
-  id        String    @id @default(uuid())
-  messages  Json
-  users     User[]
-  createdAt DateTime  @default(now())
-  Request   Request[]
+  id        String        @id @default(uuid())
+  messages  ChatMessage[]
+  users     User[]        @relation("Chats")
+  createdAt DateTime      @default(now())
+  updatedAt DateTime      @updatedAt
 }
 
-model Community {
-  id        String   @id @default(uuid())
-  messages  Json
-  members   User[]   @relation("GroupMember")
-  creater   User     @relation("GroupCreater", fields: [createrId], references: [id])
-  createrId String
-  createdAt DateTime @default(now())
+model ChatMessage {
+  id       String   @id @default(uuid())
+  content  String
+  sentAt   DateTime @default(now())
+  chatId   String
+  senderId String
+  chat     Chat     @relation(fields: [chatId], references: [id])
+  sender   User     @relation(fields: [senderId], references: [id])
 }
 
 model Request {
-  id          String @id @default(uuid())
-  sender      User   @relation(fields: [senderId], references: [id])
-  senderId    String
-  community   Chat?  @relation(fields: [communityId], references: [id])
-  communityId String
+  id       String @id @default(uuid())
+  sender   User   @relation(fields: [senderId], references: [id])
+  senderId String
 }
