@@ -38,9 +38,62 @@ const findById = async (id) => {
   return foundUser;
 };
 
+const findMany = async (id) => {
+  const users = await prisma.user.findMany({
+    where: {
+      NOT: {
+        id,
+      },
+    },
+    select: {
+      id: true,
+      username: true,
+      profile: {
+        select: {
+          firstname: true,
+          lastname: true,
+          imageUrl: true,
+        },
+      },
+    },
+  });
+  return users;
+};
+
+const findChats = async (id) => {
+  const chats = await prisma.user.findUnique({
+    where: {
+      id,
+    },
+    select: {
+      inbox: {
+        include: {
+          users: {
+            select: {
+              id: true,
+              username: true,
+              profile: {
+                select: {
+                  imageUrl: true,
+                  firstname: true,
+                  lastname: true,
+                },
+              },
+            },
+          },
+          messages: true,
+        },
+      },
+    },
+  });
+  return chats;
+};
+
 export default {
   exists,
   create,
   find,
   findById,
+  findMany,
+  findChats,
 };
