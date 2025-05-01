@@ -77,4 +77,29 @@ const acceptRequestPost = async (req, res) => {
   }
 };
 
-export { requestsGet, requestPost, acceptRequestPost };
+const rejectRequestPost = async (req, res) => {
+  const { requestId } = req.params;
+  if (!requestId) {
+    return res.status(400).json({
+      error: { msg: "Request id is required" },
+    });
+  }
+
+  try {
+    const request = await models.Request.destroy(requestId);
+    if (!request) {
+      return res.status(404).json({
+        error: { msg: "Request not found" },
+      });
+    }
+
+    return res.sendStatus(204);
+  } catch (err) {
+    return res.status(500).json({
+      message: "Error accepting request",
+      error: err,
+    });
+  }
+};
+
+export { requestsGet, requestPost, acceptRequestPost, rejectRequestPost };
