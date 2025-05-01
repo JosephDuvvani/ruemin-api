@@ -2,6 +2,7 @@ import express from "express";
 import cors from "cors";
 import routes from "./routes/index.js";
 import { configDotenv } from "dotenv";
+import guardLogin from "./middleware/guardLogin.js";
 
 configDotenv();
 
@@ -11,7 +12,9 @@ app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-app.use("/", routes.auth, routes.user);
+app.use("/", routes.auth);
+app.use("/users", guardLogin, routes.user);
+app.use("/requests", guardLogin, routes.request);
 
 const PORT = process.env.PORT || 3000;
 
