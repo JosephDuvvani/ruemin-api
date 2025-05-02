@@ -15,6 +15,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use("/", routes.auth);
 app.use("/users", guardLogin, routes.user);
 app.use("/requests", guardLogin, routes.request);
+app.use("/chats", guardLogin, routes.chat);
 
 const PORT = process.env.PORT || 3000;
 

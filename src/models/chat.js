@@ -20,4 +20,18 @@ const exists = async (id) => {
   return !!chat;
 };
 
-export default { create, exists };
+const existsWithUser = async (id, userId) => {
+  const chat = await prisma.chat.findUnique({
+    where: {
+      id,
+      users: {
+        some: {
+          id: userId,
+        },
+      },
+    },
+  });
+  return !!chat;
+};
+
+export default { create, exists, existsWithUser };

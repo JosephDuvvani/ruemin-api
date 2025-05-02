@@ -1,18 +1,5 @@
 import models from "../models/index.js";
 
-const chatsGet = async (req, res) => {
-  const currentUser = req.user;
-  try {
-    const chats = await models.User.findChats(currentUser.id);
-    return res.json({ chats });
-  } catch (err) {
-    return res.status(500).json({
-      message: "Error getting chats",
-      error: err,
-    });
-  }
-};
-
 const usersGet = async (req, res) => {
   const currentUser = req.user;
   try {
@@ -26,4 +13,4 @@ const usersGet = async (req, res) => {
   }
 };
 
-export { chatsGet, usersGet };
+export { usersGet };
