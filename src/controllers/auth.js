@@ -98,7 +98,7 @@ const signUpPost = [
     try {
       const user = await models.User.create(username, hashedPassword);
 
-      await models.Profile.create(user.id, firstname, lastname, "", {});
+      await models.Profile.create(user.id, firstname, lastname);
 
       const payload = {
         id: user.id,
