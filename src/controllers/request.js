@@ -3,11 +3,11 @@ import models from "../models/index.js";
 const requestsGet = async (req, res) => {
   const { id } = req.user;
   try {
-    const data = await models.Request.findMany(id);
-    const requests = data.map((request) => ({
-      sent: request.sentRequests,
-      received: request.receivedRequests,
-    }));
+    const data = await models.Request.find(id);
+    const requests = {
+      sent: data?.sentRequests,
+      received: data?.receivedRequests,
+    };
     return res.json({ requests });
   } catch (err) {
     return res.status(500).json({

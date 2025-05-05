@@ -1,19 +1,39 @@
 import prisma from "../db/prisma.js";
 
-const findMany = async (userId) => {
-  const requests = await prisma.user.findMany({
+const find = async (userId) => {
+  const requests = await prisma.user.findUnique({
     where: {
       id: userId,
     },
     select: {
       sentRequests: {
         include: {
-          receiver: true,
+          receiver: {
+            include: {
+              profile: {
+                select: {
+                  firstname: true,
+                  lastname: true,
+                  imageUrl: true,
+                },
+              },
+            },
+          },
         },
       },
       receivedRequests: {
         include: {
-          sender: true,
+          sender: {
+            include: {
+              profile: {
+                select: {
+                  firstname: true,
+                  lastname: true,
+                  imageUrl: true,
+                },
+              },
+            },
+          },
         },
       },
     },
@@ -61,4 +81,4 @@ const exists = async (userIdA, userIdB) => {
   return false;
 };
 
-export default { exists, findMany, create, destroy };
+export default { exists, find, create, destroy };
