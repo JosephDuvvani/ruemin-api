@@ -96,7 +96,7 @@ const rejectRequestPost = async (req, res) => {
     return res.sendStatus(204);
   } catch (err) {
     return res.status(500).json({
-      message: "Error accepting request",
+      message: "Error rejecting request",
       error: err,
     });
   }
