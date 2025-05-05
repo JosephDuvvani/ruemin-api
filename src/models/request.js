@@ -9,7 +9,9 @@ const find = async (userId) => {
       sentRequests: {
         include: {
           receiver: {
-            include: {
+            select: {
+              id: true,
+              username: true,
               profile: {
                 select: {
                   firstname: true,
@@ -24,7 +26,9 @@ const find = async (userId) => {
       receivedRequests: {
         include: {
           sender: {
-            include: {
+            select: {
+              id: true,
+              username: true,
               profile: {
                 select: {
                   firstname: true,
