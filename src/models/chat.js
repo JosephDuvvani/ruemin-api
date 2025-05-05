@@ -7,6 +7,21 @@ const create = async (userIdA, userIdB) => {
         connect: [{ id: userIdA }, { id: userIdB }],
       },
     },
+    include: {
+      users: {
+        select: {
+          id: true,
+          username: true,
+          profile: {
+            select: {
+              firstname: true,
+              lastname: true,
+              imageUrl: true,
+            },
+          },
+        },
+      },
+    },
   });
   return chat;
 };
