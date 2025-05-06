@@ -13,4 +13,22 @@ const usersGet = async (req, res) => {
   }
 };
 
-export { usersGet };
+const userDetailsGet = async (req, res) => {
+  const { userId } = req.params;
+  try {
+    const user = await models.User.findById(userId);
+    if (!user) {
+      res
+        .status(404)
+        .json({ error: { msg: "Could not find user with given id" } });
+    }
+    return res.json({ user });
+  } catch (err) {
+    return res.status(500).json({
+      message: "Error getting user",
+      error: err,
+    });
+  }
+};
+
+export { usersGet, userDetailsGet };
