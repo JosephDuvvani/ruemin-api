@@ -8,6 +8,7 @@ const create = async (userIdA, userIdB) => {
       },
     },
     include: {
+      messages: true,
       users: {
         select: {
           id: true,
