@@ -37,13 +37,7 @@ const findById = async (id) => {
     select: {
       id: true,
       username: true,
-      profile: {
-        select: {
-          firstname: true,
-          lastname: true,
-          imageUrl: true,
-        },
-      },
+      profile: true,
     },
   });
   return foundUser;
