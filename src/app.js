@@ -16,6 +16,7 @@ app.use("/", routes.auth);
 app.use("/users", guardLogin, routes.user);
 app.use("/requests", guardLogin, routes.request);
 app.use("/chats", guardLogin, routes.chat);
+app.use("/profiles", guardLogin, routes.profile);
 
 const PORT = process.env.PORT || 3000;
 

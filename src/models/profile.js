@@ -46,9 +46,23 @@ const update = async (id, firstname, lastname, imageUrl, bio) => {
   return updatedProfile;
 };
 
+const updateName = async (id, firstname, lastname) => {
+  const updatedProfile = await prisma.profile.update({
+    where: {
+      id,
+    },
+    data: {
+      firstname,
+      lastname,
+    },
+  });
+  return updatedProfile;
+};
+
 export default {
   findById,
   findByUserId,
   create,
   update,
+  updateName,
 };
