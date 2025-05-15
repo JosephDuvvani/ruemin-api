@@ -13,6 +13,20 @@ const chatsGet = async (req, res) => {
   }
 };
 
+const chatGet = async (req, res) => {
+  const currentUser = req.user;
+  const { chatId } = req.params;
+  try {
+    const chat = await models.Chat.find(chatId, currentUser.id);
+    return res.json({ chat });
+  } catch (err) {
+    return res.status(500).json({
+      message: "Error getting chat",
+      error: err,
+    });
+  }
+};
+
 const messagePost = async (req, res) => {
   const currentUser = req.user;
   const { chatId } = req.params;
@@ -37,4 +51,4 @@ const messagePost = async (req, res) => {
   }
 };
 
-export { chatsGet, messagePost };
+export { chatsGet, chatGet, messagePost };
